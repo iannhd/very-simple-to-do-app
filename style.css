@@ -36,7 +36,8 @@ li span:nth-child(1){
 li span:nth-child(2){
     cursor: pointer;
     color: #fff;
-    margin-left: 180px;
+    
+
 }
 
 .btn {
