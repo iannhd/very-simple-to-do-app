@@ -1,6 +1,6 @@
 let todos = {} // perantara Local Storage
 const STORAGE_TODO = 'STORAGE_TODO'
-const todoBox = document.getElementById('todo')
+let todoBox = document.getElementById('todo')
 
 
     // ==============================================
@@ -19,11 +19,10 @@ const todoBox = document.getElementById('todo')
         todos = JSON.parse(todoFromLocal)
 
     // loop isi object todos bikin listnya
-        for (let key in todos) {
-        createList()
-        }
+        for (let key in todos) 
+            createList(key, todos[key])
     }
-    function syncLocalStorage(activity, item, status =false) {
+    function syncLocalStorage(activity, item, status = false) {
         switch (activity) {
             case 'ADD':
             case 'UPDATE':
@@ -36,14 +35,12 @@ const todoBox = document.getElementById('todo')
                 break
         }
         
-        console.log(todos);
-
         localStorage.setItem(STORAGE_TODO, JSON.stringify(todos))
         return
     }
     
     // ==============================================
-    // =====    TODO FUNCTIONS =======================
+    // =====    TODO FUNCTIONS ======================
     // ==============================================
 
 
@@ -59,18 +56,19 @@ function add() {
 
     // kosongkan fieldnya lagi
     newText.value = ""
-
-    function createList(text, status = false) {
-        // status ?
-        let newTodo = `<li class="the_task"> 
-                    <span class='newLi' onclick="toggle(this)">  ${text} </span> 
-                    <span onclick="removeItem(this)">  [x] </span>
-                    </li>`
-        todoBox.insertAdjacentHTML('afterbegin', newTodo)
-    }
-
     
 }
+
+function createList(text, status = false) {
+    let isDone = (status) ? 'done' : ''
+    let newTodo = 
+                    `<li class="the_task"> 
+                        <span class='${isDone}' onclick="toggle(this)">  ${text} </span> 
+                        <span onclick="removeItem(this)">  [x] </span>
+                    </li>`
+        todoBox.insertAdjacentHTML('afterbegin', newTodo)
+    } 
+
 
 function toggle(el) {
     let status = el.classList.toggle('done')
