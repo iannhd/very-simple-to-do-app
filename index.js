@@ -1,4 +1,5 @@
 let todos = {} // perantara Local Storage
+console.log(typeof todos);
 const STORAGE_TODO = 'STORAGE_TODO'
 let todoBox = document.getElementById('todo')
 
@@ -22,7 +23,9 @@ let todoBox = document.getElementById('todo')
         for (let key in todos) 
             createList(key, todos[key])
     }
+
     function syncLocalStorage(activity, item, status = false) {
+        console.log(todos);
         switch (activity) {
             case 'ADD':
             case 'UPDATE':
@@ -33,8 +36,9 @@ let todoBox = document.getElementById('todo')
                 break
             default:
                 break
+            
         }
-        
+        console.log(todos);
         localStorage.setItem(STORAGE_TODO, JSON.stringify(todos))
         return
     }
@@ -63,8 +67,8 @@ function createList(text, status = false) {
     let isDone = (status) ? 'done' : ''
     let newTodo = 
                     `<li class="the_task"> 
-                        <span class='${isDone}' onclick="toggle(this)">  ${text} </span> 
-                        <span onclick="removeItem(this)">  [x] </span>
+                        <span class='${isDone}' onclick="toggle(this)">${text}</span> 
+                        <span onclick="removeItem(this)">[x]</span>
                     </li>`
         todoBox.insertAdjacentHTML('afterbegin', newTodo)
     } 
@@ -72,7 +76,7 @@ function createList(text, status = false) {
 
 function toggle(el) {
     let status = el.classList.toggle('done')
-    syncLocalStorage('UPDATE', el.innerText, status)
+    syncLocalStorage('UPDATE', el.innerText.trim(), status)
 }
 
 function removeItem(el) {
